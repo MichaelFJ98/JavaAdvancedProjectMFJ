@@ -45,7 +45,7 @@ class MyScene : Scene() {
             .registerBodyWithFixture(type = BodyType.STATIC)
 
         //todo merge spite and player class in 1
-        
+
         addUpdater {
             if (input.keys[Key.SPACE] && test.y >= ((groundLevel - p1.defaultHeight)- 1)) {
                 p1.setYPos(p1.xPixel + jumpHeight)
