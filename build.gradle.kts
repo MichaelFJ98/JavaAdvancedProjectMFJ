@@ -6,6 +6,7 @@ plugins {
 
 korge {
 	id = "MFJ.Projects.JavaAdvancedProjectMFJ"
+	supportBox2d()
 // To enable all targets at once
 
 	//targetAll()
