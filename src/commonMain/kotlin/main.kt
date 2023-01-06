@@ -60,9 +60,11 @@ class MainScene : Scene() {
             .registerBodyWithFixture(type = BodyType.DYNAMIC)
 
         val spikeModel = sprite(spikeSprite)
-            .position(700, 580)
+            .position(700, 575)
             .registerBodyWithFixture(type= BodyType.KINEMATIC)
-            .size(20,20)
+            .size(25,25)
+
+
 
         //Updates on input.
         addUpdater {
