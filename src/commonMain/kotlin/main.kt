@@ -19,38 +19,58 @@ import com.soywiz.korev.Key
 import com.soywiz.korge.animate.*
 import com.soywiz.korge.input.onClick
 
-
-suspend fun main() = Korge(width = 800, height = 800,
+const val WIDTH = 800;
+const val HEIGHT = 800;
+const val TITLE = "JavaAdvancedProjectMFj";
+suspend fun main() = Korge(
+    width = WIDTH, height = HEIGHT,
     bgcolor = Colors["#2b2b2b"],
-    quality = GameWindow.Quality.PERFORMANCE, title = "JavaAdvancedProjectMFJ") {
+    quality = GameWindow.Quality.PERFORMANCE,
+    title = TITLE) {
+
     val sceneContainer = sceneContainer()
 
-    sceneContainer.changeTo({ MyScene() })
+    sceneContainer.changeTo({ MainScene() })
 }
 
-class MyScene : Scene() {
+class MainScene : Scene() {
     override suspend fun SContainer.sceneMain() {
+        //Variables
         val groundLevel:Double = 600.0 //Y-value of ground level
         val jumpHeight:Double = 50.0 // # pixels you jump
-        val p1 = Player()
+        val playerStartPosition = 100.0
+        val playerCharacter = Player(playerStartPosition)
 
+        //Sprites
+        val backgroundSprite:Bitmap = resourcesVfs["background.jpg"].readBitmap()
         val playerSprite: Bitmap = resourcesVfs["p2_stand.png"].readBitmap()
+        val spikeSprite: Bitmap = resourcesVfs["IndividualSpike.png"].readBitmap()
 
-        val test = sprite(playerSprite)
-            .position(p1.xPixel, groundLevel - p1.height)
-            .registerBodyWithFixture(type = BodyType.DYNAMIC)
+        //Physical game objects
+        sprite(backgroundSprite)
+            .position(0,0)
+            .setSize(800.0,600.0)
 
-        solidRect(800, 100, Colors.WHITE)
+        solidRect(800, 200, Colors.WHITE)
             .position(0.0, groundLevel)
             .registerBodyWithFixture(type = BodyType.STATIC)
 
-        //todo merge spite and player class in 1
+        val playerCharacterModel = sprite(playerSprite)
+            .position(playerCharacter.valueX, groundLevel - playerCharacter.defaultHeight)
+            .registerBodyWithFixture(type = BodyType.DYNAMIC)
 
+        val spikeModel = sprite(spikeSprite)
+            .position(700, 580)
+            .registerBodyWithFixture(type= BodyType.KINEMATIC)
+            .size(20,20)
+
+        //Updates on input.
         addUpdater {
-            if (input.keys[Key.SPACE] && test.y >= ((groundLevel - p1.defaultHeight)- 1)) {
-                p1.setYPos(p1.xPixel + jumpHeight)
-                test.position(p1.xPixel, groundLevel - p1.height)
-                p1.resetHeight()
+            if (input.keys[Key.SPACE] && playerCharacterModel.y >= ((groundLevel - playerCharacter.defaultHeight)- 1)) {
+                playerCharacter.setYPos(playerCharacter.valueX + jumpHeight)
+                playerCharacterModel.position(playerCharacter.valueX, groundLevel - playerCharacter.height)
+                playerCharacter.resetHeight()
+
             }
         }
 

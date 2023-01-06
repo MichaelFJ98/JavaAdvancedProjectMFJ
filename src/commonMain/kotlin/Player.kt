@@ -1,7 +1,7 @@
-class Player {
+class Player(positionX: Double) {
     val defaultHeight:Double = 92.0;
     var height:Double = defaultHeight;
-    val xPixel:Double = 100.0;
+    val valueX = positionX;
 
     fun setYPos(jumpHeight: Double){
         this.height =+ jumpHeight
