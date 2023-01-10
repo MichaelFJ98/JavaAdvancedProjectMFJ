@@ -10,7 +10,10 @@ import com.soywiz.korim.bitmap.*
 import com.soywiz.korim.color.*
 import com.soywiz.korim.format.*
 import com.soywiz.korio.file.std.*
+import com.soywiz.korma.geom.*
+import org.jbox2d.common.*
 import org.jbox2d.dynamics.*
+import com.soywiz.korma.geom.Angle
 
 
 class PlayScene : Scene() {
@@ -19,22 +22,23 @@ class PlayScene : Scene() {
     val jumpHeight:Double = 50.0 // # pixels you jump
     val playerStartPosition = 100.0
 
+
     private lateinit var player: Player
 
     override suspend fun SContainer.sceneMain() {
 
         //Sprites
         val backgroundSprite: Bitmap = resourcesVfs["background.jpg"].readBitmap()
-        addChild(
-            solidRect(800, 200, Colors.WHITE)
-                .position(0.0, groundLevel)
-                .registerBodyWithFixture(type = BodyType.STATIC))
+
+
 
         player = Player(playerStartPosition, groundLevel)
-
         player.loadPlayer()
         addChild(player.drawModel)
 
+        solidRect(800, 200, Colors.WHITE)
+            .position(0.0, groundLevel)
+            .registerBodyWithFixture(type = BodyType.STATIC)
 
         //Physical game objects
 
@@ -44,11 +48,15 @@ class PlayScene : Scene() {
 
         //Updates on input.
         addUpdater {
-            println(player.drawModel.y)
-            if (input.keys[Key.SPACE] && player.drawModel.y >= ((groundLevel - player.defaultHeight)- 1)) {
-                player.drawModel.y -= 50.0
+//            player.y = player.drawModel.y
+            println("drawmodel: ${player.drawModel.y}")
+            println("playerobject: ${player.y}")
 
+            if (input.keys[Key.SPACE] && player.y >= ((groundLevel - player.defaultHeight)- 1)) {
+                player.y -= 50.0
+                player.drawModel.y -= 50.0
             }
+
 
         }
 

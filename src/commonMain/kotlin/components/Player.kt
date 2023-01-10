@@ -3,6 +3,7 @@ package components
 import com.soywiz.korge.box2d.*
 import com.soywiz.korge.view.*
 import com.soywiz.korim.bitmap.*
+import com.soywiz.korim.color.*
 import com.soywiz.korim.format.*
 import com.soywiz.korio.file.std.*
 import org.jbox2d.dynamics.*
@@ -33,11 +34,11 @@ class Player(positionX: Double, positionY: Double) : Container() {
 
         val playerModelSprite = resourcesVfs["p2_stand.png"].readBitmap()
 
-        drawModel = Sprite(playerModelSprite)
+        drawModel = sprite(playerModelSprite)
             .position(valueX,valueY)
             .registerBodyWithFixture(type = BodyType.DYNAMIC)
-
-        println("added drawmodel to canvas")
+//        this.x = valueX
+//        this.y = valueY
     }
     fun getYVal():Double{
         return drawModel.y
@@ -46,6 +47,8 @@ class Player(positionX: Double, positionY: Double) : Container() {
     fun returnModel():Sprite{
         return drawModel
     }
+
+
 
     fun die(onDie: () -> Unit){
         state = State.DEAD
