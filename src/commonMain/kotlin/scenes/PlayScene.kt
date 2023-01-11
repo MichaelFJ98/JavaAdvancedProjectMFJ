@@ -46,24 +46,32 @@ class PlayScene : Scene() {
         //draw components
         player.draw(this)
         ground.draw(this)
-        spike1.draw(this)
-        spike2.draw(this)
-        spike3.draw(this)
-        spike4.draw(this)
+        for(spike in spikes){
+            spike.draw(this)
+        }
 
         //gameloop
         addUpdater {
-            player.update()
-            spike1.update()
-            spike2.update()
-            spike3.update()
-            spike4.update()
+            if(player.state == Player.State.ALIVE) {
+                player.update()
 
-            if (input.keys[Key.SPACE] && player.y >= ((groundLevel - player.defaultHeight)- 1)) {
-                player.jump()
+                if (input.keys[Key.SPACE] && player.y >= ((groundLevel - player.defaultHeight) - 1)) {
+                    player.jump()
+                }
+
+                for (spike in spikes) {
+
+                    spike.update()
+
+                    if (player.drawModel.collidesWith(spike.getView())) {
+                        player.die()
+                    }
+                }
             }
+            else{
 
-
+                println("tis gedoan")
+            }
         }
 
     }

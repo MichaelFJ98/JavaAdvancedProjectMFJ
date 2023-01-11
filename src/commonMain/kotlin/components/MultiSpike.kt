@@ -4,6 +4,7 @@ import com.soywiz.korge.box2d.*
 import com.soywiz.korge.view.*
 import com.soywiz.korim.format.*
 import com.soywiz.korio.file.std.*
+import com.soywiz.korma.geom.vector.*
 import org.jbox2d.dynamics.*
 
 class MultiSpike(startingPos: Double): Container(), Spike {
@@ -15,21 +16,26 @@ class MultiSpike(startingPos: Double): Container(), Spike {
 
     val startingPosX = startingPos
 
-    suspend fun draw(layer: SContainer){
+    override suspend fun draw(layer: SContainer){
         val bitmap = resourcesVfs["4ConjoinedSpikes.png"].readBitmap()
 
         drawSpike = layer.sprite(bitmap)
-                                    .position(startingPosX,startingPosY)
-                                    .registerBodyWithFixture(type = BodyType.KINEMATIC)
-                                    .size(spikeWidth,spikeheight)
+            .position(startingPosX,startingPosY)
+            .registerBodyWithFixture(type = BodyType.KINEMATIC)
+            .size(spikeWidth,spikeheight)
 
         this.x = drawSpike.x
         this.y = drawSpike.y
 
     }
 
-    fun update(){
+    override fun update(){
         drawSpike.x--
         this.x = drawSpike.x
     }
+
+    override fun getView():Sprite{
+        return drawSpike
+    }
+
 }

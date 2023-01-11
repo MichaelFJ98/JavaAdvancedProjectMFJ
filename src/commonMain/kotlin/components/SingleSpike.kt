@@ -16,7 +16,7 @@ class SingleSpike(startingPos: Double): Container(),Spike {
     val startingPosX = startingPos
 
 
-    suspend fun draw(layer: SContainer){
+    override suspend fun draw(layer: SContainer){
         val bitmap = resourcesVfs["IndividualSpike.png"].readBitmap()
 
         drawSpike = layer.sprite(bitmap)
@@ -28,8 +28,16 @@ class SingleSpike(startingPos: Double): Container(),Spike {
         this.y = drawSpike.y
 
     }
-    fun update(){
+    override fun update(){
         drawSpike.x--
         this.x = drawSpike.x
     }
+
+    override fun getView():Sprite {
+        return drawSpike
+    }
+
+
+
+
 }

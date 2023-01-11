@@ -6,6 +6,7 @@ import com.soywiz.korim.bitmap.*
 import com.soywiz.korim.color.*
 import com.soywiz.korim.format.*
 import com.soywiz.korio.file.std.*
+import com.soywiz.korma.geom.vector.*
 import org.jbox2d.dynamics.*
 
 
@@ -21,6 +22,7 @@ class Player(positionX: Double, positionY: Double) : Container() {
     lateinit var drawModel: Sprite
 
     val defaultHeight:Double = 92.0
+    val playerWidth = 66.0
     val jumpHeight: Double = 69.0
     val valueX = positionX
     val valueY = positionY - defaultHeight
@@ -35,12 +37,17 @@ class Player(positionX: Double, positionY: Double) : Container() {
 
         //draw the sprite on the correct layer with given x value and y value
         drawModel = layer.sprite(playerBitmap)
-                                 .position(valueX,valueY)
-                                 .registerBodyWithFixture(type = BodyType.DYNAMIC)
+            .position(valueX,valueY)
+            .registerBodyWithFixture(type = BodyType.DYNAMIC)
+            hitShape {
+                circle(drawModel.x, drawModel.y, playerWidth / 2)
+            }
 
         //give player object their value
         this.x = drawModel.x
         this.y = drawModel.y
+
+
     }
 
     fun jump(){
@@ -52,7 +59,7 @@ class Player(positionX: Double, positionY: Double) : Container() {
         this.y = drawModel.y
     }
 
-    fun die(onDie: () -> Unit){
+    fun die(){
         state = State.DEAD
 
     }
