@@ -52,7 +52,7 @@ class PlayScene : Scene() {
 
         //gameloop
         addUpdater {
-            if(player.state == Player.State.ALIVE) {
+            if(player.state !== Player.State.DEAD) {
                 player.update()
 
                 if (input.keys[Key.SPACE] && player.y >= ((groundLevel - player.defaultHeight) - 1)) {
@@ -63,7 +63,7 @@ class PlayScene : Scene() {
 
                     spike.update()
 
-                    if (player.drawModel.collidesWith(spike.getView())) {
+                    if (player.drawModel.collidesWith(spike.getView()) && Player.State.BOOSTED == player.state) {
                         player.die()
                     }
                 }
