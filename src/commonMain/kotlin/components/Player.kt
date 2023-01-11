@@ -17,50 +17,44 @@ class Player(positionX: Double, positionY: Double) : Container() {
         DEAD
     }
 
-    var movementSpeed = 100
     lateinit var state: State
     lateinit var drawModel: Sprite
 
-
     val defaultHeight:Double = 92.0
-    var modelHeight:Double = defaultHeight
+    val jumpHeight: Double = 69.0
     val valueX = positionX
     val valueY = positionY - defaultHeight
 
-    private lateinit var playerModel: Image
+    //draw player model
+    suspend fun draw(layer: SContainer){
+        //bitmap
+       val playerBitmap = resourcesVfs["p2_stand.png"].readBitmap()
 
-    suspend fun loadPlayer(){
+        //state
         state = State.ALIVE
 
-        val playerModelSprite = resourcesVfs["p2_stand.png"].readBitmap()
+        //draw the sprite on the correct layer with given x value and y value
+        drawModel = layer.sprite(playerBitmap)
+                                 .position(valueX,valueY)
+                                 .registerBodyWithFixture(type = BodyType.DYNAMIC)
 
-        drawModel = sprite(playerModelSprite)
-            .position(valueX,valueY)
-            .registerBodyWithFixture(type = BodyType.DYNAMIC)
-//        this.x = valueX
-//        this.y = valueY
-    }
-    fun getYVal():Double{
-        return drawModel.y
+        //give player object their value
+        this.x = drawModel.x
+        this.y = drawModel.y
     }
 
-    fun returnModel():Sprite{
-        return drawModel
+    fun jump(){
+        drawModel.position(valueX,valueY - jumpHeight)
     }
 
-
+    //update player object Y value to the sprite y -value
+    fun update(){
+        this.y = drawModel.y
+    }
 
     fun die(onDie: () -> Unit){
         state = State.DEAD
 
-        removeChildren()
-    }
-    fun setYPos(jumpHeight: Double){
-        this.modelHeight =+ jumpHeight
-    }
-
-    fun resetHeight(){
-        this.modelHeight = defaultHeight;
     }
 
 }

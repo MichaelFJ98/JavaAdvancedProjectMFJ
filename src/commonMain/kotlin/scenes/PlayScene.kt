@@ -1,6 +1,5 @@
 package scenes
 
-import components.Player
 import com.soywiz.korev.*
 import com.soywiz.korge.animate.*
 import com.soywiz.korge.box2d.*
@@ -14,6 +13,7 @@ import com.soywiz.korma.geom.*
 import org.jbox2d.common.*
 import org.jbox2d.dynamics.*
 import com.soywiz.korma.geom.Angle
+import components.*
 
 
 class PlayScene : Scene() {
@@ -22,41 +22,38 @@ class PlayScene : Scene() {
     val jumpHeight:Double = 50.0 // # pixels you jump
     val playerStartPosition = 100.0
 
-
+    //components
     private lateinit var player: Player
+    private lateinit var ground: Ground
+    private lateinit var spike1: Spike
+
 
     override suspend fun SContainer.sceneMain() {
 
         //Sprites
         val backgroundSprite: Bitmap = resourcesVfs["background.jpg"].readBitmap()
 
-
-
+        //components
         player = Player(playerStartPosition, groundLevel)
-        player.loadPlayer()
-        addChild(player.drawModel)
-
-        solidRect(800, 200, Colors.WHITE)
-            .position(0.0, groundLevel)
-            .registerBodyWithFixture(type = BodyType.STATIC)
-
-        //Physical game objects
+        ground = Ground()
+        spike1  = Spike()
 
 
+        //draw components
+        player.draw(this)
+        ground.draw(this)
+        spike1.drawSingular(this)
 
-
-
-        //Updates on input.
+        //gameloop
         addUpdater {
-//            player.y = player.drawModel.y
-            println("drawmodel: ${player.drawModel.y}")
             println("playerobject: ${player.y}")
+            println("singlespike: ${spike1.drawSingularSpike.x}")
+            player.update()
+            spike1.updateSingular()
 
             if (input.keys[Key.SPACE] && player.y >= ((groundLevel - player.defaultHeight)- 1)) {
-                player.y -= 50.0
-                player.drawModel.y -= 50.0
+                player.jump()
             }
-
 
         }
 

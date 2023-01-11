@@ -24,7 +24,6 @@ suspend fun main() = Korge(
 
 
     }
-    addChild(bg)
     val sceneContainer = sceneContainer()
 
     sceneContainer.changeTo({ PlayScene() })
