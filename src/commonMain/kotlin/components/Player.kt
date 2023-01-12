@@ -1,6 +1,7 @@
 package components
 
 import com.soywiz.korge.box2d.*
+import com.soywiz.korge.scene.*
 import com.soywiz.korge.view.*
 import com.soywiz.korim.bitmap.*
 import com.soywiz.korim.color.*
@@ -59,9 +60,8 @@ class Player(positionX: Double, positionY: Double) : Container() {
         this.y = drawModel.y
     }
 
-    fun die(){
+   fun die(){
         state = State.DEAD
-
     }
 
 }
