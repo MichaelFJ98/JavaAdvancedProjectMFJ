@@ -5,8 +5,8 @@ import com.soywiz.korge.view.*
 
 
 class Score : Container() {
-    lateinit var textField: UIText
-    private var score: Int = 0
+    private lateinit var textField: UIText
+    private var score: Double = 0.0
 
     fun addUI(layer: SContainer){
         textField = layer.uiText("Score: $score"){
@@ -17,9 +17,12 @@ class Score : Container() {
 
     fun increase(layer: SContainer){
         score++
-        println(score)
         textField.removeFromParent()
         addUI(layer)
 
+    }
+
+    fun getScore(): Double{
+        return score
     }
 }

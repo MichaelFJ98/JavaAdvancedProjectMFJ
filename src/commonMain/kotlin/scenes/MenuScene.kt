@@ -1,16 +1,10 @@
 package scenes
 
-import com.soywiz.korge.box2d.*
 import com.soywiz.korge.scene.*
 import com.soywiz.korge.view.*
 import com.soywiz.korim.bitmap.*
-import com.soywiz.korim.color.*
-import com.soywiz.korma.geom.shape.*
-import org.jbox2d.dynamics.*
-import com.soywiz.korev.*
 import com.soywiz.korge.input.*
-import com.soywiz.korge.scene.*
-import com.soywiz.korge.view.*
+import com.soywiz.korge.ui.*
 import com.soywiz.korim.format.*
 import com.soywiz.korio.file.std.*
 
@@ -27,6 +21,11 @@ class MenuScene : Scene() {
             centerOnStage()
         }
 
+        uiText("Press the 'A' button on your keyboard before the circle closes to unlock a boost."){
+            textSize = 20.0
+            position(100.0 , 600.0)
+
+        }
 
 
         button.onClick {

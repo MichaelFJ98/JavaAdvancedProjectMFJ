@@ -7,13 +7,13 @@ import com.soywiz.korio.file.std.*
 import org.jbox2d.dynamics.*
 
 class SingleSpike(startingPos: Double): Container(),Spike {
-    lateinit var drawSpike: Sprite
+    private lateinit var drawSpike: Sprite
 
-    val spikeheight = 25.0
-    val spikeWidth = 25.0
-    val startingPosY = 600.0 - spikeheight
+    private val spikeheight = 25.0
+    private val spikeWidth = 25.0
+    private val startingPosY = 600.0 - spikeheight
 
-    val startingPosX = startingPos
+    private val startingPosX = startingPos
 
 
     override suspend fun draw(layer: SContainer){

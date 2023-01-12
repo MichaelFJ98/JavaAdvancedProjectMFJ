@@ -16,6 +16,7 @@ class Player(positionX: Double, positionY: Double) : Container() {
     enum class State {
         ALIVE,
         BOOSTED,
+        MINIGAME,
         DEAD
     }
 
@@ -23,10 +24,11 @@ class Player(positionX: Double, positionY: Double) : Container() {
     lateinit var drawModel: Sprite
 
     val defaultHeight:Double = 92.0
-    val playerWidth = 66.0
-    val jumpHeight: Double = 69.0
-    val valueX = positionX
-    val valueY = positionY - defaultHeight
+    private val playerWidth = 66.0
+    private var jumpHeight: Double = 80.0
+    private val valueX = positionX
+    private val valueY = positionY - defaultHeight
+    var startScore: Double = 0.0
 
     //draw player model
     suspend fun draw(layer: SContainer){
@@ -49,10 +51,15 @@ class Player(positionX: Double, positionY: Double) : Container() {
         this.y = drawModel.y
 
 
+
+
     }
 
     fun jump(){
-        drawModel.position(valueX,valueY - jumpHeight)
+        if(state == State.ALIVE){
+            drawModel.position(valueX,valueY - jumpHeight)
+        }
+        else drawModel.position(valueX, valueY - (jumpHeight*2))
     }
 
     //update player object Y value to the sprite y -value
