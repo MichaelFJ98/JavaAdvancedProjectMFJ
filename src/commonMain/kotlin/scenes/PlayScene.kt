@@ -53,24 +53,33 @@ class PlayScene : Scene() {
         }
 
         //gameloop
-        while(true) {
+        while (true) {
             delay(TimeSpan(1.0))
-            while (player.state !== Player.State.MINIGAME) {
-                delay(TimeSpan(1.0))
 
-                if (player.state !== Player.State.DEAD) {
+            if (player.state == Player.State.MINIGAME) {
+                circles.update()
+                if (input.keys[Key.A] && circles.state == Circles.State.ALIVE) {
+                    player.state = Player.State.BOOSTED
+                    removeChild(circles.getViewInner())
+                }
+                if (circles.state == Circles.State.DEAD) {
+                    removeChild(circles.getViewInner())
+                    player.state = Player.State.ALIVE
+                }
+            } else {
+
+                if (player.state != Player.State.DEAD) {
                     player.update()
                     score.increase(this)
 
                     if (input.keys[Key.SPACE] && player.y >= ((groundLevel - player.defaultHeight) - 1)) {
                         player.jump()
-
                     }
 
                     if (score.getScore() > unlockBoost && player.y >= ((groundLevel - player.defaultHeight) - 1)) {
                         circles.init(this)
                         player.state = Player.State.MINIGAME
-                        unlockBoost = Random.nextDouble(unlockBoost, (unlockBoost + 5000.0))
+                        unlockBoost = Random.nextDouble((unlockBoost + 2000) , (unlockBoost + 5000.0))
                     }
 
                     if (player.state == Player.State.BOOSTED && score.getScore() > (player.startScore + 2000.0)) {
@@ -90,27 +99,9 @@ class PlayScene : Scene() {
                     }
                 } else {
                     sceneContainer.changeTo<Scene>({ MenuScene() })
-
                 }
-
-
-            }
-
-            if (player.state == Player.State.MINIGAME) {
-                circles.update()
-                if (input.keys[Key.A] && circles.state == Circles.State.ALIVE) {
-                    player.state = Player.State.BOOSTED
-                    removeChild(circles.getViewInner())
-                }
-                if (circles.state == Circles.State.DEAD) {
-                    removeChild(circles.getViewInner())
-                    player.state = Player.State.ALIVE
-                }
-
-
             }
         }
-
     }
 
 }
